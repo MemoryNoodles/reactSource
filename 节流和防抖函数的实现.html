@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div{
+            width:200px;
+            height: 200px;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="div"></div>
+    <script>
+        /*
+          定义：节流 == （不管触发多少次）固定时间执行一次
+          要求：100毫秒执行一次
+        **/
+        let go = throttle(cb);
+        function cb(){
+           console.log(2) 
+        }
+        div.onmousemove = function(){
+            go()
+        };
+        
+        function throttle(callback){
+            
+            let time = new Date();
+            return function(){
+                var nowTime = new Date();
+                if (nowTime -  time>= 1000){ //100
+                    time = nowTime;
+                    callback()
+                }
+            }       
+            
+        }
+        
+        //防抖 == 只触发一次（连续触发时）
+        function cb(){
+           console.log(3)
+        }
+        let go = debounce(cb)
+        div.onmousemove = function(){
+            go()
+        };
+        
+        function debounce(callback){
+            
+            let time = null;
+            return function(){
+                clearTimeout(time);
+                time = setTimeout(function(){
+                    callback()
+                },100);
+            }
+            
+        }
+    </script>
+</body>
+</html>
